@@ -35,6 +35,7 @@ def kfold(*, model, x, y, k=5, metrics={"mae": mean_absolute_error}):
 
 
 def model_selection(
+    model_type: str, # Classification or Regression
     x_train: np.ndarray, x_dev: np.ndarray, x_test: np.nd_array, 
     y_train: np.ndarray, y_dev: np.ndarray, y_test: np.nd_array, 
     hyper_params = {
