@@ -36,23 +36,26 @@ def kfold(*, model, x, y, k=5, metrics={"mae": mean_absolute_error}):
     return results
 
 
+# TODO - Simple cross validation
+# TODO - N-Fold Cross validation
+# TODO - Leave-one-out cross validation
+
 def model_selection(
-    model_type: str, # Classification or Regression
-    x_train: np.ndarray, x_dev: np.ndarray, x_test: np.nd_array, 
-    y_train: np.ndarray, y_dev: np.ndarray, y_test: np.nd_array,
-    hyper_params_regression = {
-            "criterions": ["squared_error"],
-            "splitters": ["best"],
-            "max_depths": None,
-            "min_samples_splits": range(2,30,1),
-            "min_samples_leafs": range(1,30,1),
-            #"min_weight_fraction_leaf": [0.0],
-            "max_features": ["auto", "sqrt", "log2"]
-            #random_state: [int] [None] - none is default, it is int
-            #max_leaf_nodes: [int] [None] - none is default, it is int
-            #min_impurity_decrease: [0.0]
-            #ccp_alpha: [0.0]
-        }):
+        model_type: str, # Classification or Regression
+        x_train: np.ndarray, x_dev: np.ndarray, x_test: np.nd_array, 
+        y_train: np.ndarray, y_dev: np.ndarray, y_test: np.nd_array,
+        hyper_params_regression_criterions = [ "squared_error" ],
+        hyper_params_regression_splitters = [ "best" ],
+        hyper_params_regression_max_depths = None,
+        hyper_params_regression_min_samples_splits = [ 2 ],
+        hyper_params_regression_min_samples_leafs = [ 1 ],
+        hyper_params_regression_min_weight_fraction_leaf = [ 0.0 ],
+        hyper_params_regression_max_features = [ None ],
+        hyper_params_regression_random_state = [ None ], # int
+        hyper_params_regression_max_leaf_nodes = [ None ], # int
+        hyper_params_regression_min_impurity_decrease = [ 0.0 ],
+        hyper_params_regression_ccp_alpha = [ 0.0 ]
+    ):
     """
     hyper_params = {
             "criterions": ["squared_error", "friedman_mse", "absolute_error","poisson"],
@@ -66,13 +69,30 @@ def model_selection(
     
     # Hyperparameters
     if model_type == "Regression":
-        criterion = hyper_params_regression["criterions"]
-        splitter = hyper_params_regression["splitters"]
-        max_depth = hyper_params_regression["max_depths"]
-        max_features = hyper_params_regression["max_features"]
-        min_samples_leaf = hyper_params_regression["min_samples_leaf"]
-        min_samples_splits = hyper_params_regression["min_samples_splits"]
-        hyper_parameters = product(criterion, splitter, max_depth, max_features, min_samples_leaf, min_samples_splits)
+        criterion = hyper_params_regression_criterions
+        splitter = hyper_params_regression_splitters
+        max_depth = hyper_params_regression_max_depths
+        min_samples_splits = hyper_params_regression_min_samples_splits
+        min_samples_leaf = hyper_params_regression_min_samples_leafs
+        min_weight_fraction_leaf = hyper_params_regression_min_weight_fraction_leaf
+        max_features = hyper_params_regression_max_features
+        random_state = hyper_params_regression_random_state
+        max_leaf_nodes = hyper_params_regression_max_leaf_nodes
+        min_impurity_decrease = hyper_params_regression_min_impurity_decrease
+        ccp_alpha = hyper_params_regression_ccp_alpha
+        hyper_parameters = product(
+                criterion, 
+                splitter, 
+                max_depth, 
+                min_samples_splits, 
+                min_samples_leaf, 
+                min_weight_fraction_leaf, 
+                max_features, 
+                random_state,
+                max_leaf_nodes,
+                min_impurity_decrease,
+                ccp_alpha
+            )
     else:
         raise NotImplementedError("Not Implemented")
 
