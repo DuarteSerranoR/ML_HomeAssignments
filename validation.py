@@ -1,6 +1,23 @@
 import numpy as np
+from enum import Enum
 from sklearn import tree
 from itertools import product
+
+
+class ModelTypes(Enum):
+
+    regression = 0
+    classification_binary = 1
+    classification_n_ary = 2
+
+class CrossValidationMethods(Enum):
+
+    simple = 0
+    n_fold = 1
+    leave_one_out = 2
+
+# TODO - retrospective validation
+# TODO - KFold cross validation
 
 def simple_cross_validation(*, model, x, y, train_partition=(0, 0.8), metrics={"mae": mean_absolute_error}):
     n, m = x.shape
@@ -41,7 +58,9 @@ def kfold(*, model, x, y, k=5, metrics={"mae": mean_absolute_error}):
 # TODO - Leave-one-out cross validation
 
 def model_selection(
-        model_type: str, # Classification or Regression
+        model_type: ModelTypes, # regression, classification_binary, classification_n_ary
+        cross_validation_methodology: CrossValidationMethods, # simple, n_fold, leave_one_out
+        target_classifier: str, # specifies which classifier should be focused on during validation
         x_train: np.ndarray, x_dev: np.ndarray, x_test: np.nd_array, 
         y_train: np.ndarray, y_dev: np.ndarray, y_test: np.nd_array,
         hyper_params_regression_criterions = [ "squared_error" ],
@@ -68,7 +87,7 @@ def model_selection(
     """
     
     # Hyperparameters
-    if model_type == "Regression":
+    if model_type == ModelTypes.regression:
         criterion = hyper_params_regression_criterions
         splitter = hyper_params_regression_splitters
         max_depth = hyper_params_regression_max_depths
