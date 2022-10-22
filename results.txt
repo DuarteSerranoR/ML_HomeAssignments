@@ -1,0 +1,134 @@
+
+
+Objective 1 - Regression Models
+
+
+Starting new Tests
+
+
+
+Tree Regressor Selection
+
+\begin{tabular}{lllrrr}
+ &  &  & mae & rve & r2 \\
+criterion & splitter & max_depth &  &  &  \\
+\multirow[c]{5}{*}{squared\_error} & \multirow[c]{5}{*}{best} & 5.000000 & 4.526 & 0.445 & 0.444 \\
+ &  & 10.000000 & 3.643 & 0.490 & 0.489 \\
+ &  & 20.000000 & 3.710 & 0.468 & 0.466 \\
+ &  & 50.000000 & 3.674 & 0.477 & 0.476 \\
+ &  & nan & 3.739 & 0.458 & 0.456 \\
+\multirow[c]{5}{*}{friedman\_mse} & \multirow[c]{5}{*}{best} & 5.000000 & 4.521 & 0.446 & 0.444 \\
+ &  & 10.000000 & 3.665 & 0.488 & 0.487 \\
+ &  & 20.000000 & 3.716 & 0.466 & 0.464 \\
+ &  & 50.000000 & 3.704 & 0.466 & 0.464 \\
+ &  & nan & 3.719 & 0.467 & 0.466 \\
+\end{tabular}
+
+ --- 
+
+
+Ridge Selection
+
+\begin{tabular}{lrrr}
+ & mae & rve & r2 \\
+alpha &  &  &  \\
+0.000010 & 6.422 & 0.121 & 0.120 \\
+0.000100 & 6.422 & 0.121 & 0.120 \\
+0.001000 & 6.422 & 0.121 & 0.120 \\
+0.010000 & 6.422 & 0.121 & 0.120 \\
+0.100000 & 6.422 & 0.121 & 0.120 \\
+1.000000 & 6.422 & 0.121 & 0.120 \\
+10.000000 & 6.424 & 0.123 & 0.122 \\
+\end{tabular}
+
+ --- 
+
+
+Lasso Selection
+
+\begin{tabular}{lrrr}
+ & mae & rve & r2 \\
+alpha &  &  &  \\
+0.000010 & 6.422 & 0.121 & 0.120 \\
+0.000100 & 6.422 & 0.121 & 0.120 \\
+0.001000 & 6.423 & 0.121 & 0.120 \\
+0.010000 & 6.439 & 0.122 & 0.121 \\
+0.100000 & 6.697 & 0.077 & 0.077 \\
+1.000000 & 6.939 & 0.000 & -0.001 \\
+10.000000 & 6.939 & 0.000 & -0.001 \\
+\end{tabular}
+
+ --- 
+
+
+Best Model: tree-squared_error-best-10
+Best Model Results: {'mae': 3.642860255607676, 'rve': 0.49034175302165617, 'r2': 0.4889247798168571}
+
+-----
+
+Objective 2 - Binary Classification Models
+
+
+
+Tree Classifier Selection
+
+\begin{tabular}{lllrrrr}
+ &  &  & acc & f1 & recall & precision \\
+criterion & splitter & max_depth &  &  &  &  \\
+\multirow[c]{5}{*}{gini} & \multirow[c]{5}{*}{best} & 5.000000 & 0.871 & 0.539 & 0.458 & 0.688 \\
+ &  & 10.000000 & 0.871 & 0.625 & 0.637 & 0.616 \\
+ &  & 20.000000 & 0.874 & 0.635 & 0.648 & 0.623 \\
+ &  & 50.000000 & 0.871 & 0.623 & 0.630 & 0.618 \\
+ &  & nan & 0.871 & 0.626 & 0.635 & 0.619 \\
+\multirow[c]{5}{*}{entropy} & \multirow[c]{5}{*}{best} & 5.000000 & 0.873 & 0.538 & 0.451 & 0.723 \\
+ &  & 10.000000 & 0.876 & 0.620 & 0.600 & 0.645 \\
+ &  & 20.000000 & 0.871 & 0.621 & 0.625 & 0.620 \\
+ &  & 50.000000 & 0.872 & 0.623 & 0.626 & 0.623 \\
+ &  & nan & 0.873 & 0.624 & 0.625 & 0.625 \\
+\end{tabular}
+
+ --- 
+
+
+Best Model: tree-gini-best-20
+Best Model Results: {'acc': 0.873758865248227, 'f1': 0.634704627149283, 'recall': 0.6477866116400927, 'precision': 0.6230168389623043}
+
+-----
+
+
+
+Independent Validation Set - Final Conclusions:
+
+
+
+
+format of the model name:
+ - model_type(tree vs linear vs ...), criterions, splitters, max_depths
+
+ - model_type(tree vs linear vs ...), criterions, splitters, max_depths, max_features, min_samples_leaf, min_samples_splits, max_leaf_nodes
+
+
+--- Regressor ---
+Model: tree-squared_error-best-10
+Performance on IVS: {'mae': 0.4778452077648693, 'rve': 0.472836629191439, 'pearson_corr': (0.7267395415164025, 1.5535216534809936e-193)}
+MAE (re-scaled): 3.8742886859163406 
+RVE: 0.472836629191439
+Pearson Correlation Score: (0.7267395415164025, 1.5535216534809936e-193)
+
+--- Classifier ---
+Model: tree-gini-best-20
+Performance on IVS: {'acc': 0.916595744680851, 'f1': 0.7710280373831775, 'recall': 0.7857142857142857, 'precision': 0.7568807339449541, 'matthews_corr': 0.720249352194412, 'confusion_matrix': array([[912,  53],
+       [ 45, 165]], dtype=int64)}
+Accuracy: 0.916595744680851
+F1: 0.7710280373831775
+Precision: 0.7568807339449541
+Recall: 0.7857142857142857
+Matthews Correlation Coefficient: 0.720249352194412
+Confusion Matrix:
+     0    1
+0  912   53
+1   45  165
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+
